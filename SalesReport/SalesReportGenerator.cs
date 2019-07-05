@@ -8,13 +8,26 @@ namespace SalesReport
 {
     public class SalesReportGenerator
     {
-        private enum DataTypes { Seller = 0, Client = 1, Sell = 2 }
-        private static string[] TypeIdentifiers = { "001", "002", "003" };
         public static string Separator { get; set; } = "ç";
         private FileSystemWatcher watcher { get; set; }
 
-        public string inputFolder { get; set; }
-        public string outputFolder { get; set; }
+        public string inputFolder { get; set; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\data\\in";
+        public string outputFolder { get; set; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\data\\out";
+
+        private string expandedInputFolder 
+        {
+            get { return Environment.ExpandEnvironmentVariables(inputFolder ?? "%HOMEPATH%\\data\\in"); }
+        }
+
+        private string expandedOutputFolder
+        {
+            get { return Environment.ExpandEnvironmentVariables(outputFolder ?? "%HOMEPATH%\\data\\out"); }
+        }
+
+        public SalesReportGenerator()
+        {
+            watcher = new FileSystemWatcher();
+        }
 
         public SalesReportGenerator(string inputFolder, string outputFolder)
         {
@@ -31,10 +44,10 @@ namespace SalesReport
 
         public void Start()
         {
-            this.CreateIfNotExists(this.inputFolder);
-            this.CreateIfNotExists(this.outputFolder);
+            this.CreateIfNotExists(this.expandedInputFolder);
+            this.CreateIfNotExists(this.expandedOutputFolder);
 
-            watcher.Path = this.inputFolder;
+            watcher.Path = this.expandedInputFolder;
             watcher.NotifyFilter = NotifyFilters.LastWrite 
                                     | NotifyFilters.FileName
                                     | NotifyFilters.CreationTime
@@ -55,8 +68,6 @@ namespace SalesReport
 
         private static void OnChanged(object source, FileSystemEventArgs e, SalesReportGenerator salesReportGenerator)
         {
-            Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
-
             List<IDataType> data = new List<IDataType>();
 
             using (var file = File.OpenText(e.FullPath))

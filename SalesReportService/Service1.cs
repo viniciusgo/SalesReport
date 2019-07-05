@@ -28,14 +28,20 @@ namespace SalesReportService
 
         protected override void OnStart(string[] args)
         {
-            salesReportGenerator = new SalesReportGenerator(
-                Environment.ExpandEnvironmentVariables(args[0]),
-                Environment.ExpandEnvironmentVariables(args[1]));
+            if (args.Count() == 2)
+                salesReportGenerator = new SalesReportGenerator(
+                    Environment.ExpandEnvironmentVariables(args[0]),
+                    Environment.ExpandEnvironmentVariables(args[1]));
+            else
+                salesReportGenerator = new SalesReportGenerator();
+
             salesReportGenerator.Start();
         }
 
         protected override void OnStop()
         {
+            if (salesReportGenerator != null)
+                salesReportGenerator.Stop();
         }
     }
 }
