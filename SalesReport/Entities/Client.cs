@@ -1,4 +1,6 @@
-﻿using SalesReport.Attributes;
+﻿using SalesReport.Parser;
+using SalesReport.Parser.Attributes;
+using SalesReport.Parser.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

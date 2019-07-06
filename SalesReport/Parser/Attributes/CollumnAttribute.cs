@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SalesReport.Attributes
+namespace SalesReport.Parser.Attributes
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true)]
     public class CollumnAttribute : Attribute

@@ -1,20 +1,13 @@
-﻿using SalesReport;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
+﻿using System;
 using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SalesReportService
 {
-    public partial class Service1 : ServiceBase
+    public partial class SalesReportService : ServiceBase
     {
-        private SalesReportGenerator salesReportGenerator { get; set; }
-        public Service1()
+        private SalesReport.SalesReport salesReportGenerator { get; set; }
+        public SalesReportService()
         {
             InitializeComponent();
         }
@@ -29,11 +22,11 @@ namespace SalesReportService
         protected override void OnStart(string[] args)
         {
             if (args.Count() == 2)
-                salesReportGenerator = new SalesReportGenerator(
+                salesReportGenerator = new SalesReport.SalesReport(
                     Environment.ExpandEnvironmentVariables(args[0]),
                     Environment.ExpandEnvironmentVariables(args[1]));
             else
-                salesReportGenerator = new SalesReportGenerator();
+                salesReportGenerator = new SalesReport.SalesReport();
 
             salesReportGenerator.Start();
         }

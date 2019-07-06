@@ -17,14 +17,14 @@ namespace SalesReportService
         {
             if (Environment.UserInteractive)
             {
-                new Service1().Test(args);
+                new SalesReportService().Test(args);
             }
             else
             {
                 ServiceBase[] ServicesToRun;
                 ServicesToRun = new ServiceBase[]
                 {
-                new Service1()
+                new SalesReportService()
                 };
                 ServiceBase.Run(ServicesToRun);
             }

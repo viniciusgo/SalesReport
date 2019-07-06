@@ -1,6 +1,6 @@
 ﻿namespace SalesReportService
 {
-    partial class Service1
+    partial class SalesReportService
     {
         /// <summary> 
         /// Variável de designer necessária.
