@@ -9,17 +9,52 @@ on:
       core_tag_pattern:
         required: true
         default: 'M\.3\.[0-9A-Z]*\.[0-9]*'
+      
+env:
+  CONTAINER_NAME_ADMIN: commerce-admin
+  CONTAINER_NAME_STORE: commerce-store
+  CONTAINER_NAME_LAYER: commerce-layer
+  ACR_URL: linxcommerce.azurecr.io
+  
+  # verificar meio de obter via parâmetro/variável de ambiente posteriormente:
+  TAG_BASELINE: CORE-3333
 
 jobs:
-  generate-next-tag:
+
+  resolveTag:
+    name: Resolve tag
     runs-on: ubuntu-latest
+    
+    outputs:
+      new-tag: ${{ steps.checkout.outputs.new-tag }}
+    
     steps:
-      - uses: actions/checkout@v4
-        with:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4
+        with: 
           ref: main
-          fetch-depth: 0
-        name: Get lastest tag for pattern
-      - run: echo new-version=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
-        id: get-last-tag
-      - name: Echo new-version
-        run: echo ${{ steps.get-last-tag.outputs.new-version }}
+        run: |
+          echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
+          
+  createRelease:
+    name: Create Release
+    needs: resolveTag
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.resolveTag.new-tag }}
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.resolveTag.new-tag }}
+          release_name: Release ${{ needs.resolveTag.new-tag }}
+          draft: false
+          prerelease: false
