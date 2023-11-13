@@ -8,7 +8,7 @@ on:
     inputs:
       core_tag_pattern:
         required: true
-        default: 'M\.2\.[0-9A-Z]*\.[0-9]*'
+        default: 'M\.3\.[0-9A-Z]*\.[0-9]*'
 
 jobs:
   test:
