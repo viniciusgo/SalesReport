@@ -18,8 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get lastest tag for pattern
-        run: NEW_VERSION = $(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | \
-              gawk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="")
+        run: NEW_VERSION = $(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="")
         #run: git tag -l
       - name: Test
         run: |
