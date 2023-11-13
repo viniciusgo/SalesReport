@@ -4,7 +4,11 @@
 name: .NET
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      CORE_TAG_PATTERN:
+        required: true
+        default: 'M\.2\.[0-9A-Z]*\.[0-9]*'
 
 jobs:
   test:
@@ -12,7 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo `git describe --tags --abbrev=0 --match $ENV:CORE_TAG_PATTERN`
+        #run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Test
         run: |
           echo $RELEASE_VERSION
