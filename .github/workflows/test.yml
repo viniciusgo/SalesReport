@@ -11,15 +11,17 @@ on:
         default: 'M\.3\.[0-9A-Z]*\.[0-9]*'
 
 jobs:
-  test:
+  generate-next-tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: main
           fetch-depth: 0
       - name: Get lastest tag for pattern
-        run: NEW_VERSION = $(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="")
+        id: get-last-tag
+        run: echo new-version=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
         #run: git tag -l
-      - name: Test
+      - name: Echo new-version
         run: |
-          echo $NEW_VERSION
+          echo ${{ get-last-tag.new-version }}
