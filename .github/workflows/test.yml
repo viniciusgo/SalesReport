@@ -22,5 +22,4 @@ jobs:
       - run: echo new-version=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
         id: get-last-tag
       - name: Echo new-version
-        run: |
-          echo ${{ steps.get-last-tag.new-version }}
+        run: echo ${{ steps.get-last-tag.new-version }}
