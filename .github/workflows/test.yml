@@ -26,14 +26,16 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs:
-      new-tag: ${{ steps.checkout.outputs.new-tag }}
+      new-tag: ${{ steps.resolve-tag.outputs.new-tag }}
     
     steps:
       - name: Checkout code
-        id: checkout
         uses: actions/checkout@v4
         with: 
           ref: main
+          
+      - name: Resolve new tag
+        id: resolve-tag
         run: |
           echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
           
