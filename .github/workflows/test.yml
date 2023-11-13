@@ -23,4 +23,4 @@ jobs:
         id: get-last-tag
       - name: Echo new-version
         run: |
-          echo ${{ outputs.get-last-tag.new-version }}
+          echo ${{ steps.get-last-tag.new-version }}
