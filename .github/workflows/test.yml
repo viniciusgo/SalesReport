@@ -71,14 +71,14 @@ jobs:
       - name: Tag Info
         run: echo $TARGET_TAG
         
-      #- name: Create Release
-      #  id: create_release
-      #  uses: actions/create-release@v1
-      #  env:
-       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    commitish: main
-       #   tag_name: $TARGET_TAG
-       #   release_name: Release $TARGET_TAG
-       #   draft: false
-       #   prerelease: false
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commitish: main
+          tag_name: $TARGET_TAG
+          release_name: Release $TARGET_TAG
+          draft: false
+          prerelease: false
