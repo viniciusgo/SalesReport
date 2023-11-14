@@ -35,25 +35,15 @@ jobs:
         with: 
           ref: main
           fetch-depth: 0
-      #- run: |
-          #echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> "$GITHUB_OUTPUT"
-          #echo ${{ env.TARGET_TAG }}
-          #echo "Branch Taging: ${{ env.TARGET_TAG }}"
-          #echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{ env.TARGET_TAG }}"
-          #git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{ env.TARGET_TAG }}
-          #echo "Branch Taged: ${{ env.TARGET_TAG }}"
-          
       - name: Resolve new tag
         id: resolve-tag
         run: |
+          echo "Resolving new tag"
           echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
       
-      - name: Push tag
+      - name: Tag resolved
         run: |
-          echo "Branch Taging: ${{steps.resolve-tag.outputs.new-tag}}"
-      #    echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{steps.resolve-tag.outputs.new-tag}}"
-      #    git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{steps.resolve-tag.outputs.new-tag}}
-      #    echo "Branch Taged: ${{steps.resolve-tag.outputs.new-tag}}"
+          echo "New Tag: ${{steps.resolve-tag.outputs.new-tag}}"
           
   createRelease:
     name: Create Release
