@@ -34,7 +34,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with: 
-          ref: $TARGET_BRANCH
+          ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
       - name: Resolve new tag
         id: resolve-tag
