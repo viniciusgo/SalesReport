@@ -60,18 +60,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ needs.resolveTag.outputs.new-tag }}
-      
+      #- name: Checkout code
+      #  uses: actions/checkout@v2
+      #  with:
+      #    fetch-depth: 0
+      #    ref: ${{ needs.resolveTag.outputs.new-tag }}
+      - name: Tag Info
+        run: echo ${{TARGET_TAG}}
+        
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          commitish: main
           tag_name: ${{ env.TARGET_TAG }}
           release_name: Release ${{ env.TARGET_TAG }}
           draft: false
