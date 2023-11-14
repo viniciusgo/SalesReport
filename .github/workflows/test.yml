@@ -36,11 +36,11 @@ jobs:
           fetch-depth: 0
       - run: |
           echo TARGET_TAG=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_ENV
-          echo $TARGET_TAG
-          echo "Branch Taging: $TARGET_TAG"
-          echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" $TARGET_TAG"
-          git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" $TARGET_TAG
-          echo "Branch Taged: $TARGET_TAG"
+          echo ${{ TARGET_TAG }}
+          echo "Branch Taging: ${{ TARGET_TAG }}"
+          echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{ TARGET_TAG }}"
+          git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{ TARGET_TAG }}
+          echo "Branch Taged: ${{ TARGET_TAG }}"
           
       #- name: Resolve new tag
       #  id: resolve-tag
