@@ -35,7 +35,8 @@ jobs:
           ref: main
           fetch-depth: 0
       - run: |
-          echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
+          new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
+          echo $new-tag
           echo "Branch Taging: ${{steps.resolve-tag.outputs.new-tag}}"
           echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{steps.resolve-tag.outputs.new-tag}}"
           git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{steps.resolve-tag.outputs.new-tag}}
