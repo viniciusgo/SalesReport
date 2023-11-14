@@ -19,6 +19,8 @@ env:
   # verificar meio de obter via parâmetro/variável de ambiente posteriormente:
   TAG_BASELINE: CORE-3333
 
+  TARGET_BRANCH: main
+
 jobs:
 
   resolveTag:
@@ -33,7 +35,7 @@ jobs:
         #id: resolve-tag
         uses: actions/checkout@v2
         with: 
-          ref: main
+          ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
       - name: Resolve new tag
         id: resolve-tag
@@ -67,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          commitish: main
+          commitish: ${{ env.TARGET_BRANCH }}
           tag_name: ${{ env.TARGET_TAG }}
           release_name: Release ${{ env.TARGET_TAG }}
           draft: false
