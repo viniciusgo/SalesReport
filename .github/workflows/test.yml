@@ -60,7 +60,9 @@ jobs:
       #    fetch-depth: 0
       #    ref: ${{ needs.resolveTag.outputs.new-tag }}
       - name: Tag Info
-        run: echo $TARGET_TAG
+        run: |
+          echo Target Tag $TARGET_TAG
+          echo Target Banch $TARGET_BRANCH
         
       - name: Create Release
         id: create_release
