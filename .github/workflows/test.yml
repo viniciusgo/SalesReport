@@ -78,7 +78,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: main
-          tag_name: ${{ TARGET_TAG }}
-          release_name: Release ${{ TARGET_TAG }}
+          tag_name: $TARGET_TAG
+          release_name: Release $TARGET_TAG
           draft: false
           prerelease: false
