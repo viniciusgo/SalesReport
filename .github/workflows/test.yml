@@ -35,7 +35,7 @@ jobs:
           ref: main
           fetch-depth: 0
       - run: |
-          echo TARGET_TAG=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_ENV
+          echo new-tag=$(git describe --tags --abbrev=0 --match M\.3\.[0-9A-Z]*\.[0-9]* | awk -F"." '{$NF+=1}{print $0RT}' OFS="." ORS="") >> $GITHUB_OUTPUT
           #echo ${{ env.TARGET_TAG }}
           #echo "Branch Taging: ${{ env.TARGET_TAG }}"
           #echo "git -c diff.mnemonicprefix=false -c core.quotepath=false --no-optional-locks tag -a -m "Github actions Tag" ${{ env.TARGET_TAG }}"
@@ -66,7 +66,7 @@ jobs:
       #    fetch-depth: 0
       #    ref: ${{ needs.resolveTag.outputs.new-tag }}
       - name: Tag Info
-        run: echo ${{env.TARGET_TAG}}
+        run: echo ${{needs.resolveTag.outputs.new-tag}}
         
       - name: Create Release
         id: create_release
