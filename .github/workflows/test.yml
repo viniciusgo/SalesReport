@@ -59,6 +59,8 @@ jobs:
     name: Create Release
     needs: resolveTag
     runs-on: ubuntu-latest
+    env:
+      TARGET_TAG: ${{needs.resolveTag.outputs.new-tag}}
     
     steps:
       #- name: Checkout code
@@ -67,9 +69,7 @@ jobs:
       #    fetch-depth: 0
       #    ref: ${{ needs.resolveTag.outputs.new-tag }}
       - name: Tag Info
-        env:
-           OUTPUT: ${{needs.resolveTag.outputs.new-tag}}
-        run: echo $OUTPUT
+        run: echo $TARGET_TAG
         
       - name: Create Release
         id: create_release
